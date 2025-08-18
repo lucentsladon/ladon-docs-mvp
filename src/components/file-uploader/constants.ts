@@ -17,7 +17,7 @@ export type SupportedLanguage = (typeof deepLSupportedLanguages)[number]
 // File size constants
 export const MAX_SIZE_MB = 20
 export const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024
-export const SUPPORTED_FORMATS = ["PDF", "DOCX"]
+export const SUPPORTED_FORMATS = ["PDF", "DOCX", "XLSX"]
 export const SUPPORTED_FORMATS_STRING = SUPPORTED_FORMATS.join(", ")
 
 // Constants for languages

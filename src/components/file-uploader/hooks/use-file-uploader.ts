@@ -43,6 +43,7 @@ export function useFileUploader() {
     allowedMimeTypes: [
       "application/pdf",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "text/plain",
     ],
   })
@@ -148,6 +149,7 @@ export function useFileUploader() {
     accept: {
       "application/pdf": [".pdf"],
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
       "text/plain": [".txt"],
     },
     maxFiles: 1,

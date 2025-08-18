@@ -5,7 +5,7 @@ import Link from "next/link"
 import { TaskStatus } from "@prisma/client"
 import type { inferRouterOutputs } from "@trpc/server"
 import { formatDistanceToNow } from "date-fns"
-import { ArrowUpRight, Download, FileText, FileType, FileUp } from "lucide-react"
+import { ArrowUpRight, Download, FileSpreadsheet, FileText, FileType, FileUp } from "lucide-react"
 
 import { LANGUAGES } from "@/components/file-uploader/constants"
 import { Button } from "@/components/ui/button"
@@ -19,6 +19,7 @@ type TTask = RouterOutput["task"]["list"]["items"][number]
 const getFileIcon = (fileName: string) => {
   if (fileName.endsWith(".pdf")) return <FileType className="h-6 w-6 text-red-500" />
   if (fileName.endsWith(".docx")) return <FileText className="h-6 w-6 text-blue-500" />
+  if (fileName.endsWith(".xlsx")) return <FileSpreadsheet className="h-6 w-6 text-green-500" />
   if (fileName.endsWith(".txt")) return <FileText className="h-6 w-6 text-gray-500" />
   return <FileUp className="h-6 w-6 text-gray-500" />
 }

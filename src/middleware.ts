@@ -3,15 +3,22 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 
 import { APP_ROUTES } from "@/config/routes"
 
-const isPrivateRoute = createRouteMatcher([APP_ROUTES.UPLOAD, APP_ROUTES.YOUTUBE, APP_ROUTES.APP])
+const isPrivateRoute = createRouteMatcher([APP_ROUTES.UPLOAD, APP_ROUTES.APP])
 const isApiRoute = createRouteMatcher(["/api(.*)"])
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   const { userId, redirectToSignIn } = await auth()
+  const { pathname } = req.nextUrl
 
   // For API routes, allow the request to proceed
   if (isApiRoute(req)) {
     return NextResponse.next()
+  }
+
+  // If the user visits the home page, redirect to the app page
+  if (pathname === APP_ROUTES.HOME) {
+    const appUrl = new URL(APP_ROUTES.APP, req.url)
+    return NextResponse.redirect(appUrl)
   }
 
   // If the user isn't signed in and the route is private, redirect to sign-in

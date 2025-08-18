@@ -1,0 +1,15 @@
+model User {
+  id            String    @id
+  first_name    String?
+  last_name     String?
+  image_url     String?
+  deleted       DateTime?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  username      String?   @unique
+  primary_email String
+  tasks         Task[]
+
+  @@map("users")
+}
+ 

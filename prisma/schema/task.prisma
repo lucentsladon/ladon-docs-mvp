@@ -1,0 +1,36 @@
+model Task {
+    id         String   @id @default(cuid())
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    // Task metadata
+    status TaskStatus @default(processing)
+
+    // User relation
+    user_id String
+    user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    // Document details
+    file_name           String
+    original_file_url   String
+    original_file_key   String
+    translated_file_url String?
+    translated_file_key String?
+    reviewed_file_url   String?
+    reviewed_file_key   String?
+
+    // Language settings
+    source_language String
+    target_language String
+    formality       Formality @default(default)
+    prompt          String? // Optional AI prompt
+
+    error_message   String? // Error message if the task failed
+
+    // Trigger.dev job ID for tracking
+    trigger_id String?
+
+    @@index([user_id])
+    @@index([status])
+    @@map("tasks")
+}

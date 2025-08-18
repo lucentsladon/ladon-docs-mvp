@@ -1,0 +1,15 @@
+enum TaskStatus {
+    pending
+    processing
+    completed
+    failed
+    published
+}
+
+enum Formality {
+    default
+    more
+    less
+    prefer_more
+    prefer_less
+}

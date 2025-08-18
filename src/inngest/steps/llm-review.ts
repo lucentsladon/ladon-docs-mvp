@@ -3,6 +3,7 @@ import path from "path"
 import { generateText } from "ai"
 import Docxtemplater from "docxtemplater"
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib"
+import * as XLSX from "xlsx"
 import PizZip from "pizzip"
 
 import model from "@/lib/ai/model"
@@ -32,6 +33,14 @@ async function createPdfWithText(text: string): Promise<Buffer> {
 
   const pdfBytes = await pdfDoc.save()
   return Buffer.from(pdfBytes)
+}
+
+async function createXlsxWithText(text: string): Promise<Buffer> {
+  const workbook = XLSX.utils.book_new()
+  const worksheet = XLSX.utils.aoa_to_sheet([[text]])
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Reviewed Text")
+  const xlsxBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" })
+  return xlsxBuffer
 }
 
 async function createDocxWithText(originalDocxPath: string, newText: string): Promise<Buffer> {
@@ -94,6 +103,10 @@ export async function reviewTranslationWithLLM(
     reviewedFilePath = path.join(baseDir, `reviewed-${path.basename(filePath)}`)
     const pdfBuffer = await createPdfWithText(reviewedText)
     await fs.writeFile(reviewedFilePath, pdfBuffer)
+  } else if (extension === ".xlsx") {
+    reviewedFilePath = path.join(baseDir, `reviewed-${path.basename(filePath)}`)
+    const xlsxBuffer = await createXlsxWithText(reviewedText)
+    await fs.writeFile(reviewedFilePath, xlsxBuffer)
   } else {
     // For other formats (e.g., .txt), we save the reviewed content as a plain text file.
     reviewedFilePath = path.join(baseDir, `reviewed-${path.basename(filePath, extension)}.txt`)

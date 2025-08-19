@@ -79,13 +79,7 @@ export const documentTranslationJob = inngest.createFunction(
       )
 
       const { reviewed_file_url, reviewed_file_key } = await step.run("review-translation-with-llm", () =>
-        reviewTranslationWithLLM(
-          translatedFilePath,
-          taskId,
-          task.source_language,
-          task.target_language,
-          task.prompt
-        )
+        reviewTranslationWithLLM(translatedFilePath, taskId, task.source_language, task.target_language, task.prompt)
       )
 
       await step.run("update-task-status-completed", () => {
